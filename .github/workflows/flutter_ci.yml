@@ -33,9 +33,9 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      # 6. Build web (относительные пути)
+      # 6. Build web 
       - name: Build web
-        run: flutter build web --release --base-href /BookStore-Plus/
+        run: flutter build web --release
 
       # 7. Deploy to GitHub Pages
       - name: Deploy to itschillipill.github.io/BookStore-Plus
