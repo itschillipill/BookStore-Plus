@@ -1,4 +1,4 @@
-name: Flutter CI
+name: Flutter CI + CD
 
 on:
   push:
@@ -36,3 +36,10 @@ jobs:
       # 6. Сборка Web
       - name: Build web
         run: flutter build web
+      
+      # 7. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
