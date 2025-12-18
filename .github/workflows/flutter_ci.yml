@@ -36,10 +36,13 @@ jobs:
       # 6. Сборка Web
       - name: Build web
         run: flutter build web --release --base-href "/BookStore-Plus/"
-      
-      # 7. Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
+
+      # 7. Deploy
+      - name: Deploy to itschillipill.github.io/BookStore-Plus
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/web 
+          personal_token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          external_repository: itschillipill/itschillipill.github.io
+          publish_dir: build/web
+          destination_dir: BookStore-Plus
+          publish_branch: main
