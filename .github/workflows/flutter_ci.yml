@@ -1,0 +1,38 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Забираем код
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "stable"
+
+      # 3. Проверка версии
+      - name: Flutter version
+        run: flutter --version
+
+      # 4. Зависимости
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Тесты
+      - name: Run tests
+        run: flutter test
+
+      # 6. Сборка Web
+      - name: Build web
+        run: flutter build web
