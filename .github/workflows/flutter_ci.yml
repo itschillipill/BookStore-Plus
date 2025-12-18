@@ -11,33 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Забираем код
+      # 1. Checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Устанавливаем Flutter
+      # 2. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.29.3"
 
-      # 3. Проверка версии
+      # 3. Flutter version
       - name: Flutter version
         run: flutter --version
 
-      # 4. Зависимости
+      # 4. Dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. Тесты
+      # 5. Run tests
       - name: Run tests
         run: flutter test
 
-      # 6. Сборка Web
+      # 6. Build web (относительные пути)
       - name: Build web
-        run: flutter build web --release --base-href "/BookStore-Plus/"
+        run: flutter build web --release --base-href ./
 
-      # 7. Deploy
+      # 7. Deploy to GitHub Pages
       - name: Deploy to itschillipill.github.io/BookStore-Plus
         uses: peaceiris/actions-gh-pages@v4
         with:
