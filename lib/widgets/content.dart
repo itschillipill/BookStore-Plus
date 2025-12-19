@@ -10,39 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/language.dart';
 
-class Content extends StatefulWidget {
+class Content extends StatelessWidget {
   const Content({super.key});
-
-  @override
-  State<Content> createState() => _ContentState();
-}
-
-class _ContentState extends State<Content> {
-  List<Literature> romance = [];
-  List<Literature> fantasy = [];
-  List<Literature> detective = [];
-  List<Literature> russian =[];
-
-  @override
-  void initState() {
-    romance = filterBooks(
-      context.deps.booksCubit.state,
-      Filter(genres: [Genre.romance]),
-    );
-    fantasy = filterBooks(
-      context.deps.booksCubit.state,
-      Filter(genres: [Genre.fantasy]),
-    );
-    detective = filterBooks(
-      context.deps.booksCubit.state,
-      Filter(genres: [Genre.scienceFiction]),
-    );
-    russian = filterBooks(
-      context.deps.booksCubit.state,
-      Filter(languages: [Language.ru]),
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,20 +22,26 @@ class _ContentState extends State<Content> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 15,
               children: [
                 Text(
                   "Ничего не найдено :/",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
+                const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: context.deps.booksCubit.loadData,
-                  child: Text("Обновить список"),
+                  child: const Text("Обновить список"),
                 ),
               ],
             ),
           );
         }
+
+        final romance = filterBooks(state, Filter(genres: [Genre.romance]));
+        final fantasy = filterBooks(state, Filter(genres: [Genre.fantasy]));
+        final detective =
+            filterBooks(state, Filter(genres: [Genre.scienceFiction]));
+        final russian = filterBooks(state, Filter(languages: [Language.ru]));
 
         return SliverToBoxAdapter(
           child: Padding(
@@ -75,7 +50,7 @@ class _ContentState extends State<Content> {
               children: [
                 _buildList("На русском языке", russian),
                 _buildList("Фантастика", fantasy),
-                _buildList("Роаны", romance),
+                _buildList("Романы", romance),
                 _buildList("Детективы", detective),
               ],
             ),
@@ -86,12 +61,14 @@ class _ContentState extends State<Content> {
   }
 
   Widget _buildList(String title, List<Literature> books) {
-    if (books.isEmpty) return SizedBox.shrink();
+    if (books.isEmpty) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
         SizedBox(
           height: 300,
           child: ListView.builder(
@@ -102,6 +79,7 @@ class _ContentState extends State<Content> {
             },
           ),
         ),
+        const SizedBox(height: 20),
       ],
     );
   }
